@@ -58,30 +58,23 @@ sudo apt install ffmpeg
 
 ## 快速开始
 
-### 1. 安装 Skill
+对你的 AI Agent 说：
 
-**Proma 用户**：
-```bash
-git clone https://github.com/FengQingMo/bilibili-video-summarizer-skill.git \
-  ~/.proma/agent-workspaces/default/skills/bilibili-video-summarizer
-```
+> 安装这个 skill：https://github.com/FengQingMo/bilibili-video-summarizer-skill
 
-**Claude Code 用户**：
-将本仓库克隆或复制到你的 skills 目录。
+Agent 会自动完成安装。
 
-### 2. 安装依赖
+### 开始使用
 
-见上方[需要安装的依赖](#需要安装的依赖)。
-
-### 3. 开始使用
-
-直接对 AI Agent 说：
+直接告诉 Agent 你要总结哪个视频：
 
 > 帮我总结这个视频 https://www.bilibili.com/video/BV1LUJP6REUf
 
 或者指定策略：
 
 > 用 deep 策略认真学习这个视频 https://www.bilibili.com/video/BV1LUJP6REUf
+
+> ⚠️ 首次使用时，Agent 会自动安装 Python 依赖（`requests` 等），如果用 Whisper 降级还会下载语音模型（约 2.4GB），请耐心等待。后续使用无需重复下载。
 
 ## 项目结构
 
