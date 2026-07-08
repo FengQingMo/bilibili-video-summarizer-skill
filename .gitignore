@@ -1,25 +1,18 @@
-# Environment
-.env
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-*.egg-info/
-dist/
-build/
-*.egg
 
-# Output (subtitles, notes)
+# Environment
+.env
+
+# Output
 subtitles/
 output/
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
 
 # OS
 .DS_Store
