@@ -5,39 +5,52 @@
 
 > 一个给 **AI Agent** 用的 Skill，让它能自动从 B站视频提取字幕并生成结构化学习笔记。内置快速总结和深度研究两种策略，也支持自定义。
 
-## 这是什么
+## 使用环境
 
-这是一个 **AI Agent Skill**（技能文件），不是传统的独立软件。它告诉 AI Agent（如 Claude Code、Proma 等）如何：
+这个 Skill 运行在 **AI Agent** 环境中（如 Proma、Claude Code），需要以下条件：
 
-1. 从 B站视频获取字幕（**无需登录**）
-2. 按照你选的"策略"，将字幕总结为结构化笔记
-3. 保存为 Obsidian/Notion 兼容的 Markdown 文件
+| 要求 | 说明 |
+|------|------|
+| **AI Agent 环境** | Proma / Claude Code / 任何支持 Skill 机制的 AI Agent 平台 |
+| **Python 3.8+** | 仅字幕获取脚本需要。Agent 会自动调用 |
+| **Python 依赖** | `pip install requests`（必装）。可选：`faster-whisper` + `yt-dlp`（无字幕时的 Whisper 降级方案） |
+| **B站账号** | ❌ **不需要**。字幕获取走公开 API，无需登录 |
 
-**核心理念**：AI Agent 自己就有 LLM 能力，这个 Skill 不需要额外的 API Key，只提供字幕获取工具 + 策略提示词。
+## 你需要提供什么
+
+使用这个 Skill 只需要一样东西：
+
+> **B站视频的 BV 号或视频链接**
+
+例如：
+- `BV1LUJP6REUf` — 纯 BV 号
+- `https://www.bilibili.com/video/BV1LUJP6REUf` — 完整链接
+- `https://b23.tv/xxxxx` — 短链接也支持
+
+然后告诉 AI Agent 你想要什么程度的总结（不指定则默认用 `quick` 快速总结）。
 
 ## 快速开始
 
-### 1. 安装为 Skill
+### 1. 安装 Skill
 
 **Proma 用户**：
 ```bash
-# 克隆到 Proma skills 目录
 git clone https://github.com/FengQingMo/bilibili-video-summarizer-skill.git \
   ~/.proma/agent-workspaces/default/skills/bilibili-video-summarizer
 ```
 
 **Claude Code 用户**：
-将 SKILL.md 放到你的 skills 目录即可。
+将本仓库克隆或复制到你的 skills 目录。
 
-### 2. 安装依赖（仅字幕获取脚本需要）
+### 2. 安装 Python 依赖
 
 ```bash
 pip install requests
-# 可选：Whisper 降级方案（视频无字幕时）
+# 可选：视频无字幕时用 Whisper 降级
 # pip install faster-whisper yt-dlp
 ```
 
-### 3. 使用
+### 3. 开始使用
 
 直接对 AI Agent 说：
 
@@ -46,10 +59,6 @@ pip install requests
 或者指定策略：
 
 > 用 deep 策略认真学习这个视频 https://www.bilibili.com/video/BV1LUJP6REUf
-
-## 无需登录 B站 ✅
-
-字幕获取用的是 B站公开 API，**不需要登录、不需要 Cookie**。给 BV 号就能用。
 
 ## 项目结构
 
@@ -68,7 +77,7 @@ bilibili-video-summarizer-skill/
     └── customize.md                #   如何编写自己的策略
 ```
 
-## 两种内置策略
+## 内置策略
 
 | 策略 | 做法 | 适合场景 |
 |------|------|---------|
