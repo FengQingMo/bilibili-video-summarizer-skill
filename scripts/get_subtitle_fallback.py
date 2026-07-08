@@ -19,7 +19,10 @@ import time
 import argparse
 from pathlib import Path
 
-# 可选：HF 镜像加速国内下载
+# 模型缓存目录：skill 目录下的 models/
+SKILL_DIR = Path(__file__).resolve().parent.parent
+os.environ['HF_HUB_CACHE'] = str(SKILL_DIR / 'models')
+# 国内用户可选 HF 镜像加速
 os.environ.setdefault('HF_ENDPOINT', 'https://hf-mirror.com')
 
 

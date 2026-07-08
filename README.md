@@ -12,9 +12,12 @@
 | 要求 | 说明 |
 |------|------|
 | **AI Agent 环境** | Proma / Claude Code / 任何支持 Skill 机制的 AI Agent 平台 |
-| **Python 3.8+** | 仅字幕获取脚本需要。Agent 会自动调用 |
-| **Python 依赖** | `pip install requests`（必装）。可选：`faster-whisper` + `yt-dlp`（无字幕时的 Whisper 降级方案） |
-| **B站账号** | ❌ **不需要**。字幕获取走公开 API，无需登录 |
+| **Python 3.8+** | 字幕获取脚本的运行环境 |
+| **requests** | `pip install requests`（基础字幕获取） |
+| **ffmpeg** | Whisper 降级时需要，用于音频解码。`scoop install ffmpeg` 或 `choco install ffmpeg` |
+| **faster-whisper** + **yt-dlp** | Whisper 降级时需要。`pip install faster-whisper yt-dlp` |
+
+首次使用 Whisper 降级时，Whisper 模型会自动下载到本 Skill 目录下的 `models/` 中，后续复用缓存。推荐使用 `small` 模型（约 2.4GB，性价比最高）。
 
 ## 你需要提供什么
 
@@ -44,11 +47,7 @@ git clone https://github.com/FengQingMo/bilibili-video-summarizer-skill.git \
 
 ### 2. 安装 Python 依赖
 
-```bash
-pip install requests
-# 可选：视频无字幕时用 Whisper 降级
-# pip install faster-whisper yt-dlp
-```
+参考上方[使用环境](#使用环境)中的要求，至少装 `requests`，Whisper 降级场景按需安装。
 
 ### 3. 开始使用
 
