@@ -2,8 +2,11 @@
 Whisper-based fallback subtitle fetcher.
 
 When a Bilibili video has no subtitles via the API, this module:
-  1. Downloads the audio stream via Bilibili API
+  1. Downloads the audio stream via Bilibili API (may need login cookie)
   2. Transcribes it with faster-whisper (local model)
+
+The text subtitle API (fetcher.py) is public — no login needed.
+Audio download for Whisper may require BILI_SESSDATA cookie.
 
 Requires: pip install faster-whisper yt-dlp
 """
@@ -14,8 +17,12 @@ import time
 from pathlib import Path
 
 
-def _download_audio(bvid: str, output_path: str, sessdata: str) -> str:
-    """Download audio stream from Bilibili via API. Returns video title."""
+def _download_audio(bvid: str, output_path: str, sessdata: str = "") -> str:
+    """Download audio stream from Bilibili via API. Returns video title.
+
+    The audio stream API may require login. If no SESSDATA is provided,
+    audio download will likely fail — whisper fallback won't work.
+    """
     import requests
 
     session = requests.Session()
@@ -26,7 +33,8 @@ def _download_audio(bvid: str, output_path: str, sessdata: str) -> str:
         ),
         'Referer': 'https://www.bilibili.com',
     })
-    session.cookies.set('SESSDATA', sessdata)
+    if sessdata:
+        session.cookies.set('SESSDATA', sessdata)
 
     # Get video info
     resp = session.get(

@@ -11,7 +11,7 @@
 
 ## 功能特性
 
-- 🎬 **字幕获取** — 通过 B站 API 拉取 AI/人工字幕，自动选择最佳语言
+- 🎬 **字幕获取** — 通过 B站公开 API 获取 AI/人工字幕，**无需登录**
 - 🎙️ **Whisper 降级** — 视频没有字幕时，自动下载音频用本地 Whisper 转录（覆盖 100% 视频）
 - 🤖 **LLM 总结** — 把字幕转成结构化的学习笔记，不是简单摘要
 - 🔌 **可插拔策略** — 内置 `quick`（快速）和 `deep`（深度研究）两种策略，也支持[自己写](#自定义策略)
@@ -35,27 +35,14 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-编辑 `.env`，填入必要信息：
+只需填 LLM 相关的即可（Bilibili 字幕接口是公开的，不需要登录）：
 
 ```ini
-# B站登录凭证（获取方法见下方）
-BILI_SESSDATA=你的_SESSDATA
-BILI_JCT=你的_bili_jct
-BILI_DEDE_USER_ID=你的用户ID
-
 # LLM API（兼容 OpenAI 接口的任何服务）
 LLM_BASE_URL=https://api.openai.com/v1
 LLM_API_KEY=sk-你的API-Key
 LLM_MODEL=gpt-4o
 ```
-
-<details>
-<summary><b>怎么获取 B站 Cookie？</b></summary>
-
-1. 浏览器登录 [bilibili.com](https://www.bilibili.com)
-2. 按 F12 → **Application**（应用程序）→ **Cookies** → `https://www.bilibili.com`
-3. 复制 `SESSDATA`、`bili_jct`、`DedeUserID` 三项的值
-</details>
 
 ### 3. 使用
 
@@ -211,20 +198,20 @@ bilibili-video-summarizer/
 
 | 环境变量 | 必填 | 说明 |
 |---------|:--:|------|
-| `BILI_SESSDATA` | ✅ | B站登录 Cookie |
-| `BILI_JCT` | ✅ | B站 CSRF Token |
-| `BILI_DEDE_USER_ID` | ✅ | B站用户 ID |
 | `LLM_BASE_URL` | ✅ | LLM API 地址（OpenAI 兼容） |
 | `LLM_API_KEY` | ✅ | LLM API 密钥 |
 | `LLM_MODEL` | 否 | 模型名（默认 gpt-4o） |
+| `BILI_SESSDATA` | 否 | B站 Cookie（仅 Whisper 降级时可能需要） |
+| `BILI_JCT` | 否 | B站 CSRF Token |
+| `BILI_DEDE_USER_ID` | 否 | B站用户 ID |
 | `LLM_EXTRA_HEADERS` | 否 | 自定义 HTTP 头（JSON 字符串） |
 | `OUTPUT_DIR` | 否 | 笔记输出目录（默认 ./output） |
 | `NOTE_LANGUAGE` | 否 | 笔记语言（默认 zh） |
 
 ## 常见问题
 
-**Q: 一定要填 B站 Cookie 吗？**
-A: 是的，B站字幕接口需要登录态才能访问。
+**Q: 需要登录 B站吗？**
+A: 不需要。字幕获取用的是 B站公开 API，给 BV 号就行。
 
 **Q: 视频没有字幕怎么办？**
 A: 加 `--whisper-fallback` 参数，会自动下载音频用本地 Whisper 模型转录。需要先 `pip install faster-whisper`。

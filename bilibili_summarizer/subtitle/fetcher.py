@@ -1,13 +1,12 @@
 """
 Bilibili API subtitle fetcher.
 
-Fetches subtitles via the official Bilibili API. Requires login credentials.
+Fetches subtitles via the public Bilibili API. No login required for
+subtitle access — just provide a BV number or video URL.
 Supports BV numbers, full URLs, and automatic language selection.
 """
 
 import re
-import os
-import sys
 
 import requests
 
@@ -20,8 +19,9 @@ def extract_bvid(input_str: str) -> str | None:
     return match.group(1) if match else None
 
 
-def _create_session(sessdata: str, bili_jct: str, dede_user_id: str) -> requests.Session:
-    """Create a requests session with Bilibili login cookies."""
+def _create_session(sessdata: str = "", bili_jct: str = "",
+                    dede_user_id: str = "") -> requests.Session:
+    """Create a requests session. Cookies are optional — not needed for public APIs."""
     session = requests.Session()
     session.headers.update({
         'User-Agent': (
@@ -30,28 +30,25 @@ def _create_session(sessdata: str, bili_jct: str, dede_user_id: str) -> requests
             'Chrome/120.0.0.0 Safari/537.36'
         ),
         'Referer': 'https://www.bilibili.com',
-        'Origin': 'https://www.bilibili.com',
     })
-    session.cookies.set('SESSDATA', sessdata)
-    session.cookies.set('bili_jct', bili_jct)
-    session.cookies.set('DedeUserID', dede_user_id)
+    # Only set cookies if provided (not required for subtitle fetching)
+    if sessdata:
+        session.cookies.set('SESSDATA', sessdata)
+    if bili_jct:
+        session.cookies.set('bili_jct', bili_jct)
+    if dede_user_id:
+        session.cookies.set('DedeUserID', dede_user_id)
     return session
 
 
-def fetch_video_info(bvid: str, sessdata: str = "", bili_jct: str = "",
-                     dede_user_id: str = "") -> dict | None:
+def fetch_video_info(bvid: str) -> dict | None:
     """
     Fetch video metadata: title, author, CID, duration, views.
+    No login required.
 
     Returns a dict, or None if the request fails.
     """
-    from ..config import Config
-
-    sessdata = sessdata or Config.BILI_SESSDATA
-    bili_jct = bili_jct or Config.BILI_JCT
-    dede_user_id = dede_user_id or Config.BILI_DEDE_USER_ID
-
-    session = _create_session(sessdata, bili_jct, dede_user_id)
+    session = _create_session()
     resp = session.get(
         "https://api.bilibili.com/x/web-interface/view",
         params={'bvid': bvid}, timeout=15
@@ -114,29 +111,22 @@ def _download_subtitle_text(session: requests.Session, subtitle_url: str) -> str
     return '\n'.join(lines)
 
 
-def fetch_subtitle(bvid: str, sessdata: str = "", bili_jct: str = "",
-                   dede_user_id: str = "") -> dict | None:
+def fetch_subtitle(bvid: str) -> dict | None:
     """
     Fetch the best available subtitle for a Bilibili video.
+    No login required.
 
     Args:
         bvid: Bilibili BV number.
-        sessdata, bili_jct, dede_user_id: Override credentials from config.
 
     Returns:
         dict with keys: text, lang, subtitle_type (human/ai), bvid
         None if no subtitle is available or request fails.
     """
-    from ..config import Config
-
-    sessdata = sessdata or Config.BILI_SESSDATA
-    bili_jct = bili_jct or Config.BILI_JCT
-    dede_user_id = dede_user_id or Config.BILI_DEDE_USER_ID
-
-    session = _create_session(sessdata, bili_jct, dede_user_id)
+    session = _create_session()
 
     # 1. Get video info (for CID)
-    info = fetch_video_info(bvid, sessdata, bili_jct, dede_user_id)
+    info = fetch_video_info(bvid)
     if not info:
         return None
 

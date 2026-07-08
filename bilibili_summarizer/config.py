@@ -2,7 +2,7 @@
 Configuration management — loads settings from environment / .env file.
 
 Environment variables:
-    BILI_SESSDATA, BILI_JCT, BILI_DEDE_USER_ID  — Bilibili credentials
+    BILI_SESSDATA, BILI_JCT, BILI_DEDE_USER_ID  — Bilibili credentials (optional)
     LLM_BASE_URL, LLM_API_KEY, LLM_MODEL         — LLM API settings
     LLM_EXTRA_HEADERS                            — Optional custom headers (JSON)
     OUTPUT_DIR                                   — Default output directory
@@ -29,7 +29,7 @@ except ImportError:
 class Config:
     """Global configuration loaded from environment."""
 
-    # ---- Bilibili credentials ----
+    # ---- Bilibili credentials (optional — not needed for subtitle fetching) ----
     BILI_SESSDATA: str = os.environ.get("BILI_SESSDATA", "")
     BILI_JCT: str = os.environ.get("BILI_JCT", "")
     BILI_DEDE_USER_ID: str = os.environ.get("BILI_DEDE_USER_ID", "")

@@ -10,7 +10,6 @@ Usage:
 import argparse
 import os
 import sys
-from pathlib import Path
 
 from .config import Config
 from .subtitle import fetch_subtitle, fetch_video_info, fetch_subtitle_whisper
@@ -50,7 +49,7 @@ def _build_context(args) -> VideoContext:
         print(f"   Title: {ctx.title}")
         print(f"   Author: {ctx.author}")
     else:
-        print("   ⚠️ Could not fetch video info (credentials needed)")
+        print("   ⚠️ Could not fetch video info")
 
     # Fetch subtitle
     print("📝 Fetching subtitle...")
@@ -102,9 +101,8 @@ To use a custom strategy:
 
 Setup:
   1. Copy .env.example to .env
-  2. Fill in Bilibili credentials (BILI_SESSDATA, etc.)
-  3. Fill in LLM credentials (LLM_API_KEY, etc.)
-        """
+  2. Fill in LLM credentials (LLM_API_KEY, etc.)
+  Bilibili credentials are optional — subtitle API is public."""
     )
 
     # Input
