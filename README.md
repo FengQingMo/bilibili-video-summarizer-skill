@@ -87,10 +87,13 @@ bilibili-video-summarizer-skill/
 ├── scripts/                        # 字幕获取工具
 │   ├── get_subtitle.py             #   B站 API 字幕获取（公开接口，无需登录）
 │   └── get_subtitle_fallback.py    #   Whisper 语音识别降级
-└── strategies/                     # 总结策略（Prompt 模板）
-    ├── quick.md                    #   快速总结 — 一次对话搞定
-    ├── deep.md                     #   深度研究 — 三阶段（研究员→撰写→审阅）
-    └── customize.md                #   如何编写自己的策略
+├── strategies/                     # 总结策略（Prompt 模板）
+│   ├── quick.md                    #   快速总结 — 一次对话搞定
+│   ├── deep.md                     #   深度研究 — 三阶段（调研→撰写→审阅）
+│   └── customize.md                #   如何编写自己的策略
+└── examples/                       # 示例输出
+    ├── example-quick.md            #   quick 策略输出示例
+    └── example-deep.md             #   deep 策略输出示例（含审阅报告）
 ```
 
 ## 内置策略
@@ -120,6 +123,8 @@ Agent 输出：
 ### deep 示例
 
 Agent 会先搜索学术论文（arXiv、Google Scholar）、官方文档、技术博客，与视频字幕交叉验证后再撰写笔记。输出带完整 frontmatter 的结构化笔记，包含 Mermaid 图表、代码示例、对比表格，以及审阅评分（如 `review_score: 21/25`）。
+
+📄 完整示例：[examples/example-quick.md](examples/example-quick.md) · [examples/example-deep.md](examples/example-deep.md)（以 BV16XDYBXEdb "MoE 混合专家模型"视频为例）
 
 ## 常见问题
 
