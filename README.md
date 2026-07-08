@@ -107,16 +107,18 @@ bilibili-video-summarizer-skill/
 
 Agent 输出：
 ```markdown
-# 用 LangChain 构建 AI Agent
+# 一个 Token 怎么变成 MoE？— 混合专家模型全图解
 
 ## 概述
-这个视频讲解了如何用 LangChain 框架构建 AI Agent，
-从基础概念到完整实战，适合有 Python 基础的开发者。
+这个视频用通俗易懂的方式（从 4 维向量开始举例），
+一步步讲清楚了"混合专家模型（MoE）"是什么、为什么需要它。
 
 ## 核心要点
-- Agent 的核心是"推理+行动"循环（ReAct 模式）
-- LangChain 提供了统一的 Agent 接口，支持多种 LLM 后端
-- 工具（Tools）是 Agent 的手和脚，需要精心设计
+- MoE（Mixture of Experts）是混合专家模型，用多个"专家子网络"替代单一 FFN 层
+- MoE 只替换 Transformer 中的 FFN 层，自注意力层不受影响
+- 核心思路：参数量翻倍，但计算量不用翻那么多——每个 token 只激活少数专家
+- 两个关键步骤：① Router 挑专家（Top-K）② 加权求和计算
+- Qwen3-235B-A22B 的 235B 是总参数，22B 是激活参数
 ...
 ```
 
