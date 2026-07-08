@@ -121,14 +121,6 @@ Agent 输出：
 
 Agent 会先搜索学术论文（arXiv、Google Scholar）、官方文档、技术博客，与视频字幕交叉验证后再撰写笔记。输出带完整 frontmatter 的结构化笔记，包含 Mermaid 图表、代码示例、对比表格，以及审阅评分（如 `review_score: 21/25`）。
 
-## 自定义策略
-
-复制 `strategies/customize.md` 作为起点，写你自己的策略文件。然后告诉 AI Agent：
-
-> 用我写的 my-strategy.md 策略，帮我总结这个视频 https://...
-
-详见 [strategies/customize.md](strategies/customize.md)，里面有两个完整示例。
-
 ## 常见问题
 
 **Q: 真的不需要登录 B站吗？**
@@ -140,11 +132,8 @@ A: AI Agent 会告诉你，并询问是否用 Whisper 降级（需要安装 fast
 **Q: 这和"把字幕扔给 ChatGPT 总结"有什么不同？**
 A: 这个 Skill 提供了结构化的策略模板和预验证的提示词。deep 策略的三阶段流程（研究员→撰写→审阅）比一次性总结质量高得多，而且可以复用。
 
-**Q: 怎么贡献新的策略？**
-A: 把你写的策略文件 PR 到 `strategies/` 目录，格式参考已有的 `quick.md` 和 `deep.md`。
-
 **Q: 支持其他视频平台吗？**
-A: 目前只支持 B站。如果你需要 YouTube 等平台的支持，欢迎提 PR（核心是替换 `scripts/` 下的获取脚本，策略文件可以复用）。
+A: 目前只支持 B站。
 
 ## 许可
 
