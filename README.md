@@ -50,8 +50,8 @@ sudo apt install ffmpeg
 > **B站视频的 BV 号或视频链接**
 
 例如：
-- `BV1LUJP6REUf` — 纯 BV 号
-- `https://www.bilibili.com/video/BV1LUJP6REUf` — 完整链接
+- `BV16XDYBXEdb` — 纯 BV 号
+- `https://www.bilibili.com/video/BV16XDYBXEdb` — 完整链接
 - `https://b23.tv/xxxxx` — 短链接也支持
 
 然后告诉 AI Agent 你想要什么程度的总结（不指定则默认用 `quick` 快速总结）。
@@ -68,11 +68,11 @@ Agent 会自动完成安装。
 
 直接告诉 Agent 你要总结哪个视频：
 
-> 帮我总结这个视频 https://www.bilibili.com/video/BV1LUJP6REUf
+> 帮我总结这个视频 https://www.bilibili.com/video/BV16XDYBXEdb
 
 或者指定策略：
 
-> 用 deep 策略认真学习这个视频 https://www.bilibili.com/video/BV1LUJP6REUf
+> 用 deep 策略认真学习这个视频 https://www.bilibili.com/video/BV16XDYBXEdb
 
 > ⚠️ 首次使用时，Agent 会自动安装 Python 依赖（`requests` 等），如果用 Whisper 降级还会下载语音模型（约 2.4GB），请耐心等待。后续使用无需重复下载。
 
